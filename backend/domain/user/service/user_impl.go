@@ -109,6 +109,37 @@ func (u *userImpl) Login(ctx context.Context, email, password string) (user *use
 	return userPo2Do(userModel, resURL), nil
 }
 
+func (u *userImpl) LoginById(ctx context.Context, userId int64) (user *userEntity.User, err error) {
+	userModel, err := u.UserRepo.GetUserByID(ctx, userId)
+	if err != nil {
+		return nil, err
+	}
+	uniqueSessionID, err := u.IDGen.GenID(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate session id: %w", err)
+	}
+
+	sessionKey, err := generateSessionKey(uniqueSessionID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Update user session key
+	err = u.UserRepo.UpdateSessionKey(ctx, userModel.ID, sessionKey)
+	if err != nil {
+		return nil, err
+	}
+
+	userModel.SessionKey = sessionKey
+
+	resURL, err := u.IconOSS.GetObjectUrl(ctx, userModel.IconURI)
+	if err != nil {
+		return nil, err
+	}
+
+	return userPo2Do(userModel, resURL), nil
+}
+
 func (u *userImpl) Logout(ctx context.Context, userID int64) (err error) {
 	err = u.UserRepo.ClearSessionKey(ctx, userID)
 	if err != nil {
@@ -661,4 +692,107 @@ func userPo2Do(model *model.User, iconURL string) *userEntity.User {
 		CreatedAt:    model.CreatedAt,
 		UpdatedAt:    model.UpdatedAt,
 	}
+}
+
+func (u *userImpl) HasUser(ctx context.Context, userID int64) (b bool, err error) {
+	_, exist, err := u.UserRepo.HasUser(ctx, userID)
+	return exist, nil
+}
+
+func (u *userImpl) CreateEtcUser(ctx context.Context, req *CreateEtcUserRequest) (user *userEntity.User, err error) {
+	_, exist, err := u.UserRepo.HasUser(ctx, req.UserID)
+	if err != nil {
+		return nil, err
+	}
+	if exist {
+		return nil, errorx.New(errno.ErrUserEmailAlreadyExistCode, errorx.KV("userID", strconv.Itoa(int(req.UserID))))
+	}
+
+	exist, err = u.UserRepo.CheckEmailExist(ctx, req.Email)
+	if err != nil {
+		return nil, err
+	}
+	if exist {
+		return nil, errorx.New(errno.ErrUserEmailAlreadyExistCode, errorx.KV("email", req.Email))
+	}
+
+	exist, err = u.UserRepo.CheckUniqueNameExist(ctx, req.UniqueName)
+	if err != nil {
+		return nil, err
+	}
+	if exist {
+		return nil, errorx.New(errno.ErrUserUniqueNameAlreadyExistCode, errorx.KV("uniqueName", req.UniqueName))
+	}
+
+	// Hashing passwords using the Argon2id algorithm
+	hashedPassword, err := hashPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	userID := req.UserID
+
+	now := time.Now().UnixMilli()
+
+	spaceID := req.SpaceID
+	if spaceID <= 0 {
+		var sid int64
+		sid, err = u.IDGen.GenID(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("gen space_id failed: %w", err)
+		}
+
+		err = u.SpaceRepo.CreateSpace(ctx, &model.Space{
+			ID:          sid,
+			Name:        "Personal Space",
+			Description: "This is your personal space",
+			IconURI:     uploadEntity.EnterpriseIconURI,
+			OwnerID:     userID,
+			CreatorID:   userID,
+			CreatedAt:   now,
+			UpdatedAt:   now,
+		})
+		if err != nil {
+			return nil, fmt.Errorf("create personal space failed: %w", err)
+		}
+
+		spaceID = sid
+	}
+
+	newUser := &model.User{
+		ID:           userID,
+		IconURI:      uploadEntity.UserIconURI,
+		Name:         req.Name,
+		UniqueName:   req.UniqueName,
+		Email:        req.Email,
+		Password:     hashedPassword,
+		Description:  req.Description,
+		UserVerified: false,
+		Locale:       req.Locale,
+		CreatedAt:    now,
+		UpdatedAt:    now,
+	}
+
+	err = u.UserRepo.CreateUser(ctx, newUser)
+	if err != nil {
+		return nil, fmt.Errorf("insert user failed: %w", err)
+	}
+
+	err = u.SpaceRepo.AddSpaceUser(ctx, &model.SpaceUser{
+		SpaceID:   spaceID,
+		UserID:    userID,
+		RoleType:  1,
+		CreatedAt: now,
+		UpdatedAt: now,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("add space user failed: %w", err)
+	}
+
+	iconURL, err := u.IconOSS.GetObjectUrl(ctx, newUser.IconURI)
+	if err != nil {
+		return nil, fmt.Errorf("get icon url failed: %w", err)
+	}
+
+	return userPo2Do(newUser, iconURL), nil
 }

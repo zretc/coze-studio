@@ -160,3 +160,16 @@ func (dao *UserDAO) GetUsersByIDs(ctx context.Context, userIDs []int64) ([]*mode
 		dao.query.User.ID.In(userIDs...),
 	).Find()
 }
+
+func (dao *UserDAO) HasUser(ctx context.Context, userID int64) (*model.User, bool, error) {
+	user, err := dao.query.User.WithContext(ctx).Where(dao.query.User.ID.Eq(userID)).First()
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, false, nil
+	}
+
+	if err != nil {
+		return nil, false, err
+	}
+
+	return user, true, err
+}

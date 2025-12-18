@@ -3847,6 +3847,410 @@ func (p *UserUpdateProfileResponse) String() string {
 
 }
 
+type PassportWebTicketLoginPostRequest struct {
+	Ticket string `thrift:"ticket,1,required" form:"ticket,required" json:"ticket,required" query:"ticket,required"`
+}
+
+func NewPassportWebTicketLoginPostRequest() *PassportWebTicketLoginPostRequest {
+	return &PassportWebTicketLoginPostRequest{}
+}
+
+func (p *PassportWebTicketLoginPostRequest) InitDefault() {
+}
+
+func (p *PassportWebTicketLoginPostRequest) GetTicket() (v string) {
+	return p.Ticket
+}
+
+var fieldIDToName_PassportWebTicketLoginPostRequest = map[int16]string{
+	1: "ticket",
+}
+
+func (p *PassportWebTicketLoginPostRequest) Read(iprot thrift.TProtocol) (err error) {
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	var issetTicket bool = false
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetTicket = true
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	if !issetTicket {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PassportWebTicketLoginPostRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_PassportWebTicketLoginPostRequest[fieldId]))
+}
+
+func (p *PassportWebTicketLoginPostRequest) ReadField1(iprot thrift.TProtocol) error {
+
+	var _field string
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.Ticket = _field
+	return nil
+}
+
+func (p *PassportWebTicketLoginPostRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("PassportWebTicketLoginPostRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PassportWebTicketLoginPostRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("ticket", thrift.STRING, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Ticket); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *PassportWebTicketLoginPostRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PassportWebTicketLoginPostRequest(%+v)", *p)
+
+}
+
+type PassportWebTicketLoginPostResponse struct {
+	Data *User  `thrift:"data,1,required" form:"data,required" json:"data,required" query:"data,required"`
+	Code int32  `thrift:"code,253,required" form:"code,required" json:"code,required" query:"code,required"`
+	Msg  string `thrift:"msg,254,required" form:"msg,required" json:"msg,required" query:"msg,required"`
+}
+
+func NewPassportWebTicketLoginPostResponse() *PassportWebTicketLoginPostResponse {
+	return &PassportWebTicketLoginPostResponse{}
+}
+
+func (p *PassportWebTicketLoginPostResponse) InitDefault() {
+}
+
+var PassportWebTicketLoginPostResponse_Data_DEFAULT *User
+
+func (p *PassportWebTicketLoginPostResponse) GetData() (v *User) {
+	if !p.IsSetData() {
+		return PassportWebTicketLoginPostResponse_Data_DEFAULT
+	}
+	return p.Data
+}
+
+func (p *PassportWebTicketLoginPostResponse) GetCode() (v int32) {
+	return p.Code
+}
+
+func (p *PassportWebTicketLoginPostResponse) GetMsg() (v string) {
+	return p.Msg
+}
+
+var fieldIDToName_PassportWebTicketLoginPostResponse = map[int16]string{
+	1:   "data",
+	253: "code",
+	254: "msg",
+}
+
+func (p *PassportWebTicketLoginPostResponse) IsSetData() bool {
+	return p.Data != nil
+}
+
+func (p *PassportWebTicketLoginPostResponse) Read(iprot thrift.TProtocol) (err error) {
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	var issetData bool = false
+	var issetCode bool = false
+	var issetMsg bool = false
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetData = true
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 253:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField253(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetCode = true
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		case 254:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField254(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetMsg = true
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	if !issetData {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetCode {
+		fieldId = 253
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetMsg {
+		fieldId = 254
+		goto RequiredFieldNotSetError
+	}
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PassportWebTicketLoginPostResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_PassportWebTicketLoginPostResponse[fieldId]))
+}
+
+func (p *PassportWebTicketLoginPostResponse) ReadField1(iprot thrift.TProtocol) error {
+	_field := NewUser()
+	if err := _field.Read(iprot); err != nil {
+		return err
+	}
+	p.Data = _field
+	return nil
+}
+func (p *PassportWebTicketLoginPostResponse) ReadField253(iprot thrift.TProtocol) error {
+
+	var _field int32
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.Code = _field
+	return nil
+}
+func (p *PassportWebTicketLoginPostResponse) ReadField254(iprot thrift.TProtocol) error {
+
+	var _field string
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		_field = v
+	}
+	p.Msg = _field
+	return nil
+}
+
+func (p *PassportWebTicketLoginPostResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("PassportWebTicketLoginPostResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField253(oprot); err != nil {
+			fieldId = 253
+			goto WriteFieldError
+		}
+		if err = p.writeField254(oprot); err != nil {
+			fieldId = 254
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PassportWebTicketLoginPostResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("data", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Data.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+func (p *PassportWebTicketLoginPostResponse) writeField253(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("code", thrift.I32, 253); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.Code); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 253 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 253 end error: ", p), err)
+}
+func (p *PassportWebTicketLoginPostResponse) writeField254(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("msg", thrift.STRING, 254); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Msg); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 254 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 254 end error: ", p), err)
+}
+
+func (p *PassportWebTicketLoginPostResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PassportWebTicketLoginPostResponse(%+v)", *p)
+
+}
+
 type PassportService interface {
 	// Email password registration
 	PassportWebEmailRegisterV2Post(ctx context.Context, req *PassportWebEmailRegisterV2PostRequest) (r *PassportWebEmailRegisterV2PostResponse, err error)
@@ -3862,6 +4266,8 @@ type PassportService interface {
 	UserUpdateAvatar(ctx context.Context, req *UserUpdateAvatarRequest) (r *UserUpdateAvatarResponse, err error)
 
 	UserUpdateProfile(ctx context.Context, req *UserUpdateProfileRequest) (r *UserUpdateProfileResponse, err error)
+	// Ticket login
+	PassportWebTicketLoginPost(ctx context.Context, req *PassportWebTicketLoginPostRequest) (r *PassportWebTicketLoginPostResponse, err error)
 }
 
 type PassportServiceClient struct {
@@ -3953,6 +4359,15 @@ func (p *PassportServiceClient) UserUpdateProfile(ctx context.Context, req *User
 	}
 	return _result.GetSuccess(), nil
 }
+func (p *PassportServiceClient) PassportWebTicketLoginPost(ctx context.Context, req *PassportWebTicketLoginPostRequest) (r *PassportWebTicketLoginPostResponse, err error) {
+	var _args PassportServicePassportWebTicketLoginPostArgs
+	_args.Req = req
+	var _result PassportServicePassportWebTicketLoginPostResult
+	if err = p.Client_().Call(ctx, "PassportWebTicketLoginPost", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
 
 type PassportServiceProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
@@ -3981,6 +4396,7 @@ func NewPassportServiceProcessor(handler PassportService) *PassportServiceProces
 	self.AddToProcessorMap("PassportAccountInfoV2", &passportServiceProcessorPassportAccountInfoV2{handler: handler})
 	self.AddToProcessorMap("UserUpdateAvatar", &passportServiceProcessorUserUpdateAvatar{handler: handler})
 	self.AddToProcessorMap("UserUpdateProfile", &passportServiceProcessorUserUpdateProfile{handler: handler})
+	self.AddToProcessorMap("PassportWebTicketLoginPost", &passportServiceProcessorPassportWebTicketLoginPost{handler: handler})
 	return self
 }
 func (p *PassportServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -4320,6 +4736,54 @@ func (p *passportServiceProcessorUserUpdateProfile) Process(ctx context.Context,
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("UserUpdateProfile", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type passportServiceProcessorPassportWebTicketLoginPost struct {
+	handler PassportService
+}
+
+func (p *passportServiceProcessorPassportWebTicketLoginPost) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := PassportServicePassportWebTicketLoginPostArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("PassportWebTicketLoginPost", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := PassportServicePassportWebTicketLoginPostResult{}
+	var retval *PassportWebTicketLoginPostResponse
+	if retval, err2 = p.handler.PassportWebTicketLoginPost(ctx, args.Req); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing PassportWebTicketLoginPost: "+err2.Error())
+		oprot.WriteMessageBegin("PassportWebTicketLoginPost", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("PassportWebTicketLoginPost", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -6378,5 +6842,297 @@ func (p *PassportServiceUserUpdateProfileResult) String() string {
 		return "<nil>"
 	}
 	return fmt.Sprintf("PassportServiceUserUpdateProfileResult(%+v)", *p)
+
+}
+
+type PassportServicePassportWebTicketLoginPostArgs struct {
+	Req *PassportWebTicketLoginPostRequest `thrift:"req,1"`
+}
+
+func NewPassportServicePassportWebTicketLoginPostArgs() *PassportServicePassportWebTicketLoginPostArgs {
+	return &PassportServicePassportWebTicketLoginPostArgs{}
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) InitDefault() {
+}
+
+var PassportServicePassportWebTicketLoginPostArgs_Req_DEFAULT *PassportWebTicketLoginPostRequest
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) GetReq() (v *PassportWebTicketLoginPostRequest) {
+	if !p.IsSetReq() {
+		return PassportServicePassportWebTicketLoginPostArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+var fieldIDToName_PassportServicePassportWebTicketLoginPostArgs = map[int16]string{
+	1: "req",
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) Read(iprot thrift.TProtocol) (err error) {
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PassportServicePassportWebTicketLoginPostArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) ReadField1(iprot thrift.TProtocol) error {
+	_field := NewPassportWebTicketLoginPostRequest()
+	if err := _field.Read(iprot); err != nil {
+		return err
+	}
+	p.Req = _field
+	return nil
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("PassportWebTicketLoginPost_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("req", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Req.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PassportServicePassportWebTicketLoginPostArgs(%+v)", *p)
+
+}
+
+type PassportServicePassportWebTicketLoginPostResult struct {
+	Success *PassportWebTicketLoginPostResponse `thrift:"success,0,optional"`
+}
+
+func NewPassportServicePassportWebTicketLoginPostResult() *PassportServicePassportWebTicketLoginPostResult {
+	return &PassportServicePassportWebTicketLoginPostResult{}
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) InitDefault() {
+}
+
+var PassportServicePassportWebTicketLoginPostResult_Success_DEFAULT *PassportWebTicketLoginPostResponse
+
+func (p *PassportServicePassportWebTicketLoginPostResult) GetSuccess() (v *PassportWebTicketLoginPostResponse) {
+	if !p.IsSetSuccess() {
+		return PassportServicePassportWebTicketLoginPostResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+var fieldIDToName_PassportServicePassportWebTicketLoginPostResult = map[int16]string{
+	0: "success",
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) Read(iprot thrift.TProtocol) (err error) {
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_PassportServicePassportWebTicketLoginPostResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) ReadField0(iprot thrift.TProtocol) error {
+	_field := NewPassportWebTicketLoginPostResponse()
+	if err := _field.Read(iprot); err != nil {
+		return err
+	}
+	p.Success = _field
+	return nil
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("PassportWebTicketLoginPost_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *PassportServicePassportWebTicketLoginPostResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("PassportServicePassportWebTicketLoginPostResult(%+v)", *p)
 
 }

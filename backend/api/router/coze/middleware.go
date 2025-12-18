@@ -1634,3 +1634,13 @@ func _savebasicconfigurationMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _ticketMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}
+
+func _passportwebticketloginpostMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

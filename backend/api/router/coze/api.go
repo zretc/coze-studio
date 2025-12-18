@@ -277,6 +277,10 @@ func Register(r *server.Hertz) {
 					_logout := _web.Group("/logout", _logoutMw()...)
 					_logout.GET("/", append(_passportweblogoutgetMw(), coze.PassportWebLogoutGet)...)
 				}
+				{
+					_ticket := _web.Group("/ticket", _ticketMw()...)
+					_ticket.POST("/login", append(_passportwebticketloginpostMw(), coze.PassportWebTicketLoginPost)...)
+				}
 			}
 		}
 		{

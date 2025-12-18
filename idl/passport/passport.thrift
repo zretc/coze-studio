@@ -103,6 +103,19 @@ struct UserUpdateProfileResponse {
     254: required string         msg
 }
 
+struct PassportWebTicketLoginPostRequest {
+    1: required string ticket
+}
+
+struct PassportWebTicketLoginPostResponse {
+    1: required User data
+
+    253: required i32            code
+    254: required string         msg
+}
+
+
+
 service PassportService {
 
     // Email password registration
@@ -125,4 +138,8 @@ service PassportService {
     UserUpdateAvatarResponse UserUpdateAvatar(1: UserUpdateAvatarRequest req) (api.post="/api/web/user/update/upload_avatar/", api.serializer="form")
 
     UserUpdateProfileResponse UserUpdateProfile(1: UserUpdateProfileRequest req) (api.post="/api/user/update_profile")
+
+    // Ticket login
+    PassportWebTicketLoginPostResponse PassportWebTicketLoginPost(1: PassportWebTicketLoginPostRequest req) (api.post="/api/passport/web/ticket/login")
+
 }

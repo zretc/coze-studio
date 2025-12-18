@@ -18,11 +18,17 @@ package user
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net/mail"
+	"net/url"
 	"slices"
 	"strconv"
 	"strings"
 
+	"github.com/cloudwego/hertz/pkg/app/client"
+	"github.com/cloudwego/hertz/pkg/protocol"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/coze-dev/coze-studio/backend/api/model/app/developer_api"
 	"github.com/coze-dev/coze-studio/backend/api/model/passport"
 	"github.com/coze-dev/coze-studio/backend/api/model/playground"
@@ -341,4 +347,98 @@ func userDo2PlaygroundTo(userDo *entity.User) *playground.UserBasicInfo {
 		UserAvatar:     userDo.IconURL,
 		CreateTime:     ptr.Of(userDo.CreatedAt / 1000),
 	}
+}
+
+// PassportWebTicketLoginPost handle user ticket login requests
+func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context, locale string, req *passport.PassportWebTicketLoginPostRequest) (
+	resp *passport.PassportWebTicketLoginPostResponse, sessionKey string, err error,
+) {
+
+	//请求智云接口，解析ticket信息
+	ssoUserInfo, err := getSSOUser(req.Ticket)
+	if err != nil {
+		return nil, "", err
+	}
+
+	//按智云userId查找用户
+	hasUser, err := u.DomainSVC.HasUser(ctx, ssoUserInfo.UserId)
+	if err != nil {
+		return nil, "", err
+	}
+	if !hasUser {
+		//如果未找到用户，创建新用户（和空间），使用 智云用户id
+		u.DomainSVC.CreateEtcUser(ctx, &user.CreateEtcUserRequest{
+			UserID: ssoUserInfo.UserId,
+			CreateUserRequest: user.CreateUserRequest{
+
+				Email:      ssoUserInfo.Email,
+				Password:   "q1w2e3",
+				Name:       ssoUserInfo.Name,
+				UniqueName: ssoUserInfo.Email,
+				Locale:     locale,
+			},
+		})
+
+	}
+
+	//登陆
+	userInfo, err := u.DomainSVC.LoginById(ctx, ssoUserInfo.UserId)
+	if err != nil {
+		return nil, "", err
+	}
+
+	return &passport.PassportWebTicketLoginPostResponse{
+		Data: userDo2PassportTo(userInfo),
+		Code: 0,
+	}, userInfo.SessionKey, nil
+}
+
+type ssoUser struct {
+	UserId   int64  `json:"userId"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+	Nickname string `json:"nickname"`
+}
+
+func getSSOUser(ticket string) (su *ssoUser, err error) {
+	c, err := client.NewClient()
+	if err != nil {
+		return
+	}
+	req := &protocol.Request{}
+	res := &protocol.Response{}
+	req.SetMethod(consts.MethodGet)
+	req.Header.SetContentTypeBytes([]byte("application/json"))
+
+	baseURL := "https://api-test.omniedu.com/user/coze/biz/getUserByTicket"
+
+	queryParams := url.Values{}
+	queryParams.Add("ticket", ticket)
+	urlStr := fmt.Sprintf("%s?%s", baseURL, queryParams.Encode())
+	req.SetRequestURI(urlStr)
+
+	err = c.Do(context.Background(), req, res)
+	if err != nil {
+		return
+	}
+	fmt.Printf("%v", string(res.Body()))
+
+	// 解析响应内容
+	var response struct {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+		ssoUser `json:"data"`
+	}
+	err = json.Unmarshal(res.Body(), &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response: %v", err)
+	}
+
+	// 检查响应状态码
+	if response.Code != "1" {
+		return nil, fmt.Errorf("request failed with message: %s", response.Message)
+	}
+
+	return &response.ssoUser, nil
+
 }

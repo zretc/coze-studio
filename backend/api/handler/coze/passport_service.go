@@ -218,3 +218,33 @@ func UserUpdateProfile(ctx context.Context, c *app.RequestContext) {
 
 	c.JSON(http.StatusOK, resp)
 }
+
+// PassportWebTicketLoginPost .
+// @router /api/passport/web/ticket/login [POST]
+func PassportWebTicketLoginPost(ctx context.Context, c *app.RequestContext) {
+	var err error
+	var req passport.PassportWebTicketLoginPostRequest
+	err = c.BindAndValidate(&req)
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	locale := string(i18n.GetLocale(ctx))
+
+	resp, sessionKey, err := user.UserApplicationSVC.PassportWebTicketLoginPost(ctx, locale, &req)
+	if err != nil {
+		internalServerErrorResponse(ctx, c, err)
+		return
+	}
+
+	logs.Infof("[PassportWebTicketLoginPost] sessionKey: %s", sessionKey)
+
+	c.SetCookie(entity.SessionKey,
+		sessionKey,
+		consts.SessionMaxAgeSecond,
+		"/", domain.GetOriginHost(c),
+		protocol.CookieSameSiteDefaultMode,
+		false, true)
+	c.JSON(http.StatusOK, resp)
+}
