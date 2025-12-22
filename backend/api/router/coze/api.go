@@ -279,7 +279,10 @@ func Register(r *server.Hertz) {
 				}
 				{
 					_ticket := _web.Group("/ticket", _ticketMw()...)
-					_ticket.POST("/login", append(_passportwebticketloginpostMw(), coze.PassportWebTicketLoginPost)...)
+					{
+						_login0 := _ticket.Group("/login", _login0Mw()...)
+						_login0.POST("/", append(_passportwebticketloginpostMw(), coze.PassportWebTicketLoginPost)...)
+					}
 				}
 			}
 		}

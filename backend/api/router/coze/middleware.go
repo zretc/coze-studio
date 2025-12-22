@@ -1644,3 +1644,8 @@ func _passportwebticketloginpostMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _login0Mw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

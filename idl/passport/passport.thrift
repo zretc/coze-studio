@@ -140,6 +140,6 @@ service PassportService {
     UserUpdateProfileResponse UserUpdateProfile(1: UserUpdateProfileRequest req) (api.post="/api/user/update_profile")
 
     // Ticket login
-    PassportWebTicketLoginPostResponse PassportWebTicketLoginPost(1: PassportWebTicketLoginPostRequest req) (api.post="/api/passport/web/ticket/login")
+    PassportWebTicketLoginPostResponse PassportWebTicketLoginPost(1: PassportWebTicketLoginPostRequest req) (api.post="/api/passport/web/ticket/login/")
 
 }
