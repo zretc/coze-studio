@@ -88,6 +88,9 @@ func PassportWebLogoutGet(ctx context.Context, c *app.RequestContext) {
 // PassportWebEmailLoginPost .
 // @router /passport/web/email/login/ [POST]
 func PassportWebEmailLoginPost(ctx context.Context, c *app.RequestContext) {
+
+	logs.Infof("======== aaaaaaaaa")
+
 	var err error
 	var req passport.PassportWebEmailLoginPostRequest
 	err = c.BindAndValidate(&req)
