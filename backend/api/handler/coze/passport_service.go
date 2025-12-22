@@ -89,8 +89,6 @@ func PassportWebLogoutGet(ctx context.Context, c *app.RequestContext) {
 // @router /passport/web/email/login/ [POST]
 func PassportWebEmailLoginPost(ctx context.Context, c *app.RequestContext) {
 
-	logs.Infof("======== aaaaaaaaa")
-
 	var err error
 	var req passport.PassportWebEmailLoginPostRequest
 	err = c.BindAndValidate(&req)
@@ -226,30 +224,22 @@ func UserUpdateProfile(ctx context.Context, c *app.RequestContext) {
 // @router /api/passport/web/ticket/login [POST]
 func PassportWebTicketLoginPost(ctx context.Context, c *app.RequestContext) {
 
-	logs.Infof("===== 1")
-
 	var err error
 	var req passport.PassportWebTicketLoginPostRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		logs.Infof("===== 2")
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	logs.Infof("===== 3")
 	locale := string(i18n.GetLocale(ctx))
 
 	resp, sessionKey, err := user.UserApplicationSVC.PassportWebTicketLoginPost(ctx, locale, &req)
-	logs.Infof("===== 4")
 	if err != nil {
-		logs.Infof("===== 5")
 		internalServerErrorResponse(ctx, c, err)
 		return
 	}
-	logs.Infof("===== 6")
 	logs.Infof("[PassportWebTicketLoginPost] sessionKey: %s", sessionKey)
 
-	logs.Infof("===== 7")
 	c.SetCookie(entity.SessionKey,
 		sessionKey,
 		consts.SessionMaxAgeSecond,
@@ -257,7 +247,5 @@ func PassportWebTicketLoginPost(ctx context.Context, c *app.RequestContext) {
 		protocol.CookieSameSiteDefaultMode,
 		false, true)
 	c.JSON(http.StatusOK, resp)
-
-	logs.Infof("===== 8")
 
 }
