@@ -366,8 +366,14 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 		return nil, "", err
 	}
 	logs.Infof("===== c")
+
+	userId, err := strconv.ParseInt(ssoUserInfo.UserId, 10, 64)
+	if err != nil {
+		return nil, "", err
+	}
+
 	//按智云userId查找用户
-	hasUser, err := u.DomainSVC.HasUser(ctx, ssoUserInfo.UserId)
+	hasUser, err := u.DomainSVC.HasUser(ctx, userId)
 	if err != nil {
 		logs.Infof("===== d")
 		return nil, "", err
@@ -377,7 +383,7 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 		logs.Infof("===== f")
 		//如果未找到用户，创建新用户（和空间），使用 智云用户id
 		u.DomainSVC.CreateEtcUser(ctx, &user.CreateEtcUserRequest{
-			UserID: ssoUserInfo.UserId,
+			UserID: userId,
 			CreateUserRequest: user.CreateUserRequest{
 
 				Email:      ssoUserInfo.Email,
@@ -391,7 +397,7 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 	}
 	logs.Infof("===== h")
 	//登陆
-	userInfo, err := u.DomainSVC.LoginById(ctx, ssoUserInfo.UserId)
+	userInfo, err := u.DomainSVC.LoginById(ctx, userId)
 	if err != nil {
 		logs.Infof("===== i")
 		return nil, "", err
@@ -405,7 +411,7 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 }
 
 type ssoUser struct {
-	UserId   int64  `json:"userId"`
+	UserId   string `json:"userId"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
 	Nickname string `json:"nickname"`
