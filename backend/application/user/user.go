@@ -433,7 +433,7 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 
 	req.SetRequestURI(urlStr)
 
-	err = c.Do(context.Background(), req, res)
+	err = c.DoRedirects(context.Background(), req, res, 3)
 
 	logs.Infof("===== C")
 
