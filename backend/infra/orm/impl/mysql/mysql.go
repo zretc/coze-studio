@@ -22,10 +22,15 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func New() (*gorm.DB, error) {
 	dsn := os.Getenv("MYSQL_DSN")
+
+	logs.Errorf("=== MYSQL_DSN: %s", dsn)
+
 	db, err := gorm.Open(mysql.Open(dsn))
 	if err != nil {
 		return nil, fmt.Errorf("mysql open, dsn: %s, err: %w", dsn, err)

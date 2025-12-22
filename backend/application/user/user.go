@@ -40,6 +40,7 @@ import (
 	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 	langSlices "github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
@@ -354,18 +355,25 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 	resp *passport.PassportWebTicketLoginPostResponse, sessionKey string, err error,
 ) {
 
+	logs.Infof("===== a")
+
 	//请求智云接口，解析ticket信息
 	ssoUserInfo, err := getSSOUser(req.Ticket)
+
 	if err != nil {
+		logs.Infof("===== b")
 		return nil, "", err
 	}
-
+	logs.Infof("===== c")
 	//按智云userId查找用户
 	hasUser, err := u.DomainSVC.HasUser(ctx, ssoUserInfo.UserId)
 	if err != nil {
+		logs.Infof("===== d")
 		return nil, "", err
 	}
+	logs.Infof("===== e")
 	if !hasUser {
+		logs.Infof("===== f")
 		//如果未找到用户，创建新用户（和空间），使用 智云用户id
 		u.DomainSVC.CreateEtcUser(ctx, &user.CreateEtcUserRequest{
 			UserID: ssoUserInfo.UserId,
@@ -378,14 +386,16 @@ func (u *UserApplicationService) PassportWebTicketLoginPost(ctx context.Context,
 				Locale:     locale,
 			},
 		})
-
+		logs.Infof("===== g")
 	}
-
+	logs.Infof("===== h")
 	//登陆
 	userInfo, err := u.DomainSVC.LoginById(ctx, ssoUserInfo.UserId)
 	if err != nil {
+		logs.Infof("===== i")
 		return nil, "", err
 	}
+	logs.Infof("===== aj")
 
 	return &passport.PassportWebTicketLoginPostResponse{
 		Data: userDo2PassportTo(userInfo),
@@ -403,8 +413,11 @@ type ssoUser struct {
 func getSSOUser(ticket string) (su *ssoUser, err error) {
 	c, err := client.NewClient()
 	if err != nil {
+		logs.Infof("===== A")
+		logs.Errorf(errorx.ErrorWithoutStack(err))
 		return
 	}
+	logs.Infof("===== B")
 	req := &protocol.Request{}
 	res := &protocol.Response{}
 	req.SetMethod(consts.MethodGet)
@@ -415,13 +428,21 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 	queryParams := url.Values{}
 	queryParams.Add("ticket", ticket)
 	urlStr := fmt.Sprintf("%s?%s", baseURL, queryParams.Encode())
+
+	logs.Infof("===== URL: %s", urlStr)
+
 	req.SetRequestURI(urlStr)
 
 	err = c.Do(context.Background(), req, res)
+
+	logs.Infof("===== C")
+
 	if err != nil {
+		logs.Infof("===== D")
+		logs.Errorf(errorx.ErrorWithoutStack(err))
 		return
 	}
-	fmt.Printf("%v", string(res.Body()))
+	logs.Infof("===== resp: %s", string(res.Body()))
 
 	// 解析响应内容
 	var response struct {
@@ -429,16 +450,22 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 		Message string `json:"message"`
 		ssoUser `json:"data"`
 	}
+	logs.Infof("===== E")
 	err = json.Unmarshal(res.Body(), &response)
 	if err != nil {
+		logs.Infof("===== F")
+		logs.Errorf(errorx.ErrorWithoutStack(err))
 		return nil, fmt.Errorf("failed to unmarshal response: %v", err)
 	}
+	logs.Infof("===== G")
 
 	// 检查响应状态码
 	if response.Code != "1" {
+		logs.Infof("===== H")
+		logs.Errorf(errorx.ErrorWithoutStack(err))
 		return nil, fmt.Errorf("request failed with message: %s", response.Message)
 	}
-
+	logs.Infof("===== J")
 	return &response.ssoUser, nil
 
 }
