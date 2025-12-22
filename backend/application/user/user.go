@@ -27,6 +27,7 @@ import (
 	"strings"
 
 	"github.com/cloudwego/hertz/pkg/app/client"
+	"github.com/cloudwego/hertz/pkg/network/standard"
 	"github.com/cloudwego/hertz/pkg/protocol"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/coze-dev/coze-studio/backend/api/model/app/developer_api"
@@ -411,7 +412,9 @@ type ssoUser struct {
 }
 
 func getSSOUser(ticket string) (su *ssoUser, err error) {
-	c, err := client.NewClient()
+
+	c, err := client.NewClient(client.WithDialer(standard.NewDialer()))
+
 	if err != nil {
 		logs.Infof("===== A")
 		logs.Errorf(errorx.ErrorWithoutStack(err))
@@ -423,7 +426,7 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 	req.SetMethod(consts.MethodGet)
 	req.Header.SetContentTypeBytes([]byte("application/json"))
 
-	baseURL := "http://api-test.omniedu.com/user/coze/biz/getUserByTicket"
+	baseURL := "https://api-test.omniedu.com/user/coze/biz/getUserByTicket"
 
 	queryParams := url.Values{}
 	queryParams.Add("ticket", ticket)
@@ -433,7 +436,7 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 
 	req.SetRequestURI(urlStr)
 
-	err = c.DoRedirects(context.Background(), req, res, 3)
+	err = c.Do(context.Background(), req, res)
 
 	logs.Infof("===== C")
 
