@@ -423,7 +423,7 @@ func getSSOUser(ticket string) (su *ssoUser, err error) {
 	req.SetMethod(consts.MethodGet)
 	req.Header.SetContentTypeBytes([]byte("application/json"))
 
-	baseURL := "https://api-test.omniedu.com/user/coze/biz/getUserByTicket"
+	baseURL := "http://api-test.omniedu.com/user/coze/biz/getUserByTicket"
 
 	queryParams := url.Values{}
 	queryParams.Add("ticket", ticket)
