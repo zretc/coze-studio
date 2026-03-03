@@ -23,6 +23,7 @@ import (
 	"github.com/volcengine/volcengine-go-sdk/service/arkruntime/model"
 
 	"github.com/coze-dev/coze-studio/backend/api/model/admin/config"
+	"github.com/coze-dev/coze-studio/backend/api/model/app/bot_common"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ternary"
@@ -33,7 +34,7 @@ type arkModelBuilder struct {
 	cfg *config.Model
 }
 
-func newArkModelBuilder(cfg *config.Model) *arkModelBuilder {
+func newArkModelBuilder(cfg *config.Model) Service {
 	return &arkModelBuilder{
 		cfg: cfg,
 	}
@@ -72,6 +73,18 @@ func (b *arkModelBuilder) applyParamsToChatModelConfig(chatModelConf *ark.ChatMo
 			Type: arkThinkingType,
 		}
 	}
+
+	switch params.ResponseFormat {
+	case bot_common.ModelResponseFormat_Text,
+		bot_common.ModelResponseFormat_Markdown:
+		chatModelConf.ResponseFormat = &ark.ResponseFormat{
+			Type: model.ResponseFormatText,
+		}
+	case bot_common.ModelResponseFormat_JSON:
+		chatModelConf.ResponseFormat = &ark.ResponseFormat{
+			Type: model.ResponseFormatJsonObject,
+		}
+	}
 }
 
 func (b *arkModelBuilder) Build(ctx context.Context, params *LLMParams) (ToolCallingChatModel, error) {
@@ -82,6 +95,21 @@ func (b *arkModelBuilder) Build(ctx context.Context, params *LLMParams) (ToolCal
 	chatModelConf.Model = base.Model
 	if base.BaseURL != "" {
 		chatModelConf.BaseURL = base.BaseURL
+	}
+
+	switch base.ThinkingType {
+	case config.ThinkingType_Enable:
+		chatModelConf.Thinking = &model.Thinking{
+			Type: model.ThinkingTypeEnabled,
+		}
+	case config.ThinkingType_Disable:
+		chatModelConf.Thinking = &model.Thinking{
+			Type: model.ThinkingTypeDisabled,
+		}
+	case config.ThinkingType_Auto:
+		chatModelConf.Thinking = &model.Thinking{
+			Type: model.ThinkingTypeAuto,
+		}
 	}
 
 	arkConn := b.cfg.Connection.Ark

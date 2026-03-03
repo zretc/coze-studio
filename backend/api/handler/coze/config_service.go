@@ -18,6 +18,7 @@ import (
 	bizConf "github.com/coze-dev/coze-studio/backend/bizpkg/config"
 	"github.com/coze-dev/coze-studio/backend/bizpkg/config/modelmgr"
 	"github.com/coze-dev/coze-studio/backend/bizpkg/llm/modelbuilder"
+	"github.com/coze-dev/coze-studio/backend/infra/embedding/impl"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 	"github.com/coze-dev/coze-studio/backend/pkg/logs"
@@ -131,6 +132,56 @@ func UpdateKnowledgeConfig(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	if req.KnowledgeConfig.EmbeddingConfig == nil {
+		invalidParamRequestResponse(c, "EmbeddingConfig is nil")
+		return
+	}
+
+	if req.KnowledgeConfig.EmbeddingConfig.Connection == nil {
+		invalidParamRequestResponse(c, "Connection is nil")
+		return
+	}
+
+	if req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo == nil {
+		invalidParamRequestResponse(c, "EmbeddingInfo is nil")
+		return
+	}
+
+	embedding, err := impl.GetEmbedding(ctx, req.KnowledgeConfig.EmbeddingConfig)
+	if err != nil {
+		invalidParamRequestResponse(c, fmt.Sprintf("get embedding failed: %v", err))
+		return
+	}
+
+	if req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo.Dims <= 0 {
+		req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo.Dims = int32(embedding.Dimensions())
+
+		embedding, err = impl.GetEmbedding(ctx, req.KnowledgeConfig.EmbeddingConfig)
+		if err != nil {
+			invalidParamRequestResponse(c, fmt.Sprintf("get embedding failed: %v", err))
+			return
+		}
+	}
+
+	denseEmbeddings, err := embedding.EmbedStrings(ctx, []string{"test"})
+	if err != nil {
+		invalidParamRequestResponse(c, fmt.Sprintf("embed test string failed: %v", err))
+		return
+	}
+
+	if len(denseEmbeddings) == 0 {
+		invalidParamRequestResponse(c, fmt.Sprintf("embed test string failed: %v", err))
+		return
+	}
+
+	logs.CtxDebugf(ctx, "embed test string result: %d, expect %d",
+		len(denseEmbeddings[0]), req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo.Dims)
+	if len(denseEmbeddings[0]) != int(req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo.Dims) {
+		invalidParamRequestResponse(c, fmt.Sprintf("embed test string failed: dims not match, expect %d, got %d",
+			req.KnowledgeConfig.EmbeddingConfig.Connection.EmbeddingInfo.Dims, len(denseEmbeddings[0])))
+		return
+	}
+
 	err = bizConf.Knowledge().SaveKnowledgeConfig(ctx, req.KnowledgeConfig)
 	if err != nil {
 		internalServerErrorResponse(ctx, c, fmt.Errorf("save knowledge config failed: %w", err))
@@ -194,7 +245,9 @@ func CreateModel(ctx context.Context, c *app.RequestContext) {
 	}
 
 	respMsgs, err := chatModel.Generate(ctx, []*schema.Message{
-		schema.SystemMessage("1+1=?,Just answer with a number, no explanation.")})
+		schema.SystemMessage("Just answer with a number, no explanation."),
+		schema.UserMessage("1+1=?"),
+	})
 	if err != nil {
 		invalidParamRequestResponse(c, fmt.Sprintf("generate model failed: %v", err))
 		return

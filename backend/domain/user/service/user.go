@@ -86,6 +86,7 @@ type User interface {
 	GetUserSpaceList(ctx context.Context, userID int64) (spaces []*entity.Space, err error)
 	HasUser(ctx context.Context, userID int64) (b bool, err error)
 	CreateEtcUser(ctx context.Context, req *CreateEtcUserRequest) (user *entity.User, err error)
+	GetUserSpaceBySpaceID(ctx context.Context, spaceID []int64) (space []*entity.Space, err error)
 }
 
 type SaasUserProvider interface {

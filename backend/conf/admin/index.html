@@ -425,12 +425,6 @@
             </div>
             
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-page="workspace">
-                        <span class="nav-icon">🏠</span>
-                        工作台
-                    </a>
-                </li>
                 <li class="nav-item has-submenu">
                     <a href="#" class="nav-link" data-page="config">
                         <span class="nav-icon">⚙️</span>
@@ -504,14 +498,11 @@
         // i18n（简易字典 + 应用函数）
         const I18N = {
             'zh-CN': {
-                'nav.workspace': '工作台',
                 'nav.config': '配置管理',
                 'nav.basic': '基础配置',
                 'nav.model': '模型管理',
                 'nav.knowledge': '知识库配置',
 
-                'page.workspace.title': '工作台',
-                'page.workspace.desc': '工作台概览和快速操作',
                 'page.basic.title': '基础配置',
                 'page.basic.desc': '系统基础配置管理',
                 'page.model.title': '模型管理',
@@ -524,7 +515,6 @@
 
                 'loading': '加载中...',
                 'status.online': '在线',
-                'error.workspace_forbidden': '无法访问工作台：',
                 'error.generic': '发生错误',
                 'success.generic': '操作成功',
 
@@ -540,22 +530,6 @@
                 'feature.desc': '相关功能描述和操作入口',
 
                 'user.admin': '管理员',
-                'workspace.hero.title': '欢迎使用 Coze Studio',
-                'workspace.greeting.late': '夜深了，注意休息 🌙',
-                'workspace.greeting.morning': '早上好 🌅',
-                'workspace.greeting.noon': '中午好 ☀️',
-                'workspace.greeting.afternoon': '下午好 🌤️',
-                'workspace.greeting.evening': '晚上好 🌆',
-                'workspace.card.basic.title': '基础配置',
-                'workspace.card.basic.desc': '配置系统基础参数和核心设置，确保系统正常运行。',
-                'workspace.card.basic.cta': '开始配置',
-                'workspace.card.model.title': '模型管理',
-                'workspace.card.model.desc': '管理AI模型配置、参数调优和模型版本控制。',
-                'workspace.card.model.cta': '管理模型',
-                'workspace.card.knowledge.title': '知识库配置',
-                'workspace.card.knowledge.desc': '配置知识库索引、向量存储和检索策略设置。',
-                'workspace.card.knowledge.cta': '配置知识库',
-                'workspace.footer.cta': '让我们开始构建您的智能助手吧！',
 
                 'basic.loading': '正在加载配置...',
                 'basic.label.admin_emails': '管理员邮箱',
@@ -653,6 +627,11 @@
                 'model.field.azure': 'By Azure',
                 'model.field.api_version': 'API Version',
                 'model.field.endpoint': '接口地址',
+                'model.field.thinking_type': 'Thinking Type',
+                'model.thinking_type.default': 'Default',
+                'model.thinking_type.enable': 'Enable',
+                'model.thinking_type.disable': 'Disable',
+                'model.thinking_type.auto': 'Auto',
 
                 'model.error.load_list_failed': '加载模型列表失败',
                 'model.error.render_page_failed': '渲染模型页面失败',
@@ -694,6 +673,10 @@
                 'model.modal.gemini_project.placeholder': '选填，例如：my-project',
                 'model.modal.gemini_location.label': 'Location',
                 'model.modal.gemini_location.placeholder': '选填，例如：us-central1',
+                'model.modal.thinking_type.label': 'Thinking Type',
+                'model.modal.thinking_type.enable': 'Enable',
+                'model.modal.thinking_type.disable': 'Disable',
+                'model.modal.thinking_type.auto': 'Auto',
                 
                 // 知识库配置
                 'knowledge.error.load_failed_json': '加载知识库配置失败: 返回结果不是有效 JSON',
@@ -719,14 +702,11 @@
                 'knowledge.error.save_failed': '保存配置失败'
             },
             'en-US': {
-                'nav.workspace': 'Workspace',
                 'nav.config': 'Configuration',
                 'nav.basic': 'Basic Config',
                 'nav.model': 'Model Management',
                 'nav.knowledge': 'Knowledge Config',
 
-                'page.workspace.title': 'Workspace',
-                'page.workspace.desc': 'Workspace overview and quick actions',
                 'page.basic.title': 'Basic Config',
                 'page.basic.desc': 'System basic configuration',
                 'page.model.title': 'Model Management',
@@ -739,7 +719,6 @@
 
                 'loading': 'Loading...',
                 'status.online': 'Online',
-                'error.workspace_forbidden': 'Cannot access workspace: ',
                 'error.generic': 'Error occurred',
                 'success.generic': 'Success',
 
@@ -755,22 +734,6 @@
                 'feature.desc': 'Feature description and actions',
 
                 'user.admin': 'Admin',
-                'workspace.hero.title': 'Welcome to Coze Studio',
-                'workspace.greeting.late': 'It’s late, rest well 🌙',
-                'workspace.greeting.morning': 'Good morning 🌅',
-                'workspace.greeting.noon': 'Good noon ☀️',
-                'workspace.greeting.afternoon': 'Good afternoon 🌤️',
-                'workspace.greeting.evening': 'Good evening 🌆',
-                'workspace.card.basic.title': 'Basic Config',
-                'workspace.card.basic.desc': 'Configure system parameters and core settings to ensure proper operation.',
-                'workspace.card.basic.cta': 'Start Configuring',
-                'workspace.card.model.title': 'Model Management',
-                'workspace.card.model.desc': 'Manage AI model configs, tuning, and versioning.',
-                'workspace.card.model.cta': 'Manage Models',
-                'workspace.card.knowledge.title': 'Knowledge Config',
-                'workspace.card.knowledge.desc': 'Configure indexing, vector storage, and retrieval strategies.',
-                'workspace.card.knowledge.cta': 'Configure Knowledge',
-                'workspace.footer.cta': 'Let’s start building your AI assistant!',
 
                 'basic.loading': 'Loading configuration...',
                 'basic.label.admin_emails': 'Admin Emails',
@@ -868,6 +831,11 @@
                 'model.field.azure': 'By Azure',
                 'model.field.api_version': 'API Version',
                 'model.field.endpoint': 'Endpoint',
+                'model.field.thinking_type': 'Thinking Type',
+                'model.thinking_type.default': 'Default',
+                'model.thinking_type.enable': 'Enable',
+                'model.thinking_type.disable': 'Disable',
+                'model.thinking_type.auto': 'Auto',
 
                 'model.error.load_list_failed': 'Failed to load model list',
                 'model.error.render_page_failed': 'Failed to render model page',
@@ -909,6 +877,10 @@
                 'model.modal.gemini_project.placeholder': 'Optional, e.g., my-project',
                 'model.modal.gemini_location.label': 'Location',
                 'model.modal.gemini_location.placeholder': 'Optional, e.g., us-central1',
+                'model.modal.thinking_type.label': 'Thinking Type',
+                'model.modal.thinking_type.enable': 'Enable',
+                'model.modal.thinking_type.disable': 'Disable',
+                'model.modal.thinking_type.auto': 'Auto',
                 
                 // Knowledge Config
                 'knowledge.error.load_failed_json': 'Load knowledge config failed: invalid JSON response',
@@ -965,7 +937,6 @@
         }
         function applyTranslations() {
             // 左侧导航
-            setNavLinkText(document.querySelector('[data-page="workspace"]'), t('nav.workspace'));
             setNavLinkText(document.querySelector('[data-page="config"]'), t('nav.config'));
             const basicLink = document.querySelector('[data-page="basic-config"]');
             if (basicLink) basicLink.innerHTML = '<span class="submenu-icon">🔧</span>' + t('nav.basic');
@@ -975,9 +946,8 @@
             if (knowledgeLink) knowledgeLink.innerHTML = '<span class="submenu-icon">📚</span>' + t('nav.knowledge');
 
             // 顶部标题（根据当前 hash）
-            const hash = window.location.hash.substring(1) || 'workspace';
+            const hash = window.location.hash.substring(1) || 'basic-config';
             const map = {
-                'workspace': { title: t('page.workspace.title'), desc: t('page.workspace.desc') },
                 'basic-config': { title: t('page.basic.title'), desc: t('page.basic.desc') },
                 'model-management': { title: t('page.model.title'), desc: t('page.model.desc') },
                 'knowledge-config': { title: t('page.knowledge.title'), desc: t('page.knowledge.desc') },
@@ -1058,7 +1028,6 @@
         // 从hash加载页面
         function loadPageFromHash(hash) {
             const pageConfig = {
-                'workspace': { title: t('page.workspace.title'), description: t('page.workspace.desc') },
                 'basic-config': { title: t('page.basic.title'), description: t('page.basic.desc') },
                 'model-management': { title: t('page.model.title'), description: t('page.model.desc') },
                 'knowledge-config': { title: t('page.knowledge.title'), description: t('page.knowledge.desc') }
@@ -1217,7 +1186,6 @@
         // 加载页面内容
         function loadPageContent(pageName) {
             const pageConfig = {
-                'workspace': { title: t('page.workspace.title'), description: t('page.workspace.desc') },
                 'basic-config': { title: t('page.basic.title'), description: t('page.basic.desc') },
                 'model-management': { title: t('page.model.title'), description: t('page.model.desc') },
                 'knowledge-config': { title: t('page.knowledge.title'), description: t('page.knowledge.desc') }
@@ -1234,45 +1202,24 @@
 
         // 显示默认页面
         function showDefaultPage() {
-            // 设置工作台为选中状态
-            const workspaceLink = document.querySelector('[data-page="workspace"]');
-            if (workspaceLink) {
+            // 设置基础配置为选中状态
+            const basicConfigLink = document.querySelector('[data-page="basic-config"]');
+            if (basicConfigLink) {
                 // 移除所有活动状态
                 navLinks.forEach(l => l.classList.remove('active'));
                 submenuLinks.forEach(l => l.classList.remove('active'));
                 
-                // 添加工作台的活动状态
-                workspaceLink.classList.add('active');
+                // 添加基础配置的活动状态
+                basicConfigLink.classList.add('active');
             }
             
             // 设置默认页面的URL hash
-            window.location.hash = 'workspace';
-            loadPageContent('workspace');
+            window.location.hash = 'basic-config';
+            loadPageContent('basic-config');
         }
 
         // 显示页面内容
         function showPageContent(pageName, title) {
-            // 如果是工作台页面，先调用权限检查接口
-            if (pageName === 'workspace') {
-                fetch('/api/admin/config/basic/get')
-                    .then(resp => resp.json())
-                    .then(data => {
-                        if (handleApiCode(data)) {
-                            return;
-                        }
-                        if (Number(data?.code) === 0) {
-                            showWorkspaceContent();
-                            return;
-                        }
-                        showError(t('error.workspace_forbidden') + (data?.msg ? String(data.msg) : ''));
-                    })
-                    .catch(err => {
-                        console.error('Workspace permission check failed:', err);
-                        showError(t('error.workspace_forbidden') + (err?.message ? String(err.message) : ''));
-                    });
-                return;
-            }
-            
             // 如果是基础配置页面，加载config.html的内容
             if (pageName === 'basic-config') {
                 loadBasicConfigPage();
@@ -1876,7 +1823,7 @@
                     return;
                 }
                 if (data && Number(data.code) === 0) {
-                    showSuccess(t('success.saved_restart_required'));
+                    showSuccess(t('success.saved'));
                 } else {
                     const msg = (data && (data.msg || data.message)) ? (data.msg || data.message) : t('error.save_failed');
                     showError(msg);
@@ -2014,6 +1961,17 @@
             return s.slice(0, 6) + '***' + s.slice(-4);
         }
 
+        function getThinkingTypeText(thinkingTypeValue) {
+            const thinkingType = Number(thinkingTypeValue);
+            switch (thinkingType) {
+                case 0: return t('model.thinking_type.default');
+                case 1: return t('model.thinking_type.enable');
+                case 2: return t('model.thinking_type.disable');
+                case 3: return t('model.thinking_type.auto');
+                default: return '-';
+            }
+        }
+
         function renderModelManagement(payload) {
             try {
                 const providers = Array.isArray(payload?.provider_model_list) ? payload.provider_model_list : [];
@@ -2070,6 +2028,12 @@
                                      <input id="newModelGeminiProject" type="text" style="padding:8px;border:1px solid #e1e8ed;border-radius:8px;width:100%;display:none;" placeholder="${t('model.modal.gemini_project.placeholder')}">
                                      <label id="newModelGeminiLocationLabel" style="font-size:12px;color:#374151;display:none;">${t('model.modal.gemini_location.label')}</label>
                                      <input id="newModelGeminiLocation" type="text" style="padding:8px;border:1px solid #e1e8ed;border-radius:8px;width:100%;display:none;" placeholder="${t('model.modal.gemini_location.placeholder')}">
+                                     <label id="newModelThinkingTypeLabel" style="font-size:12px;color:#374151;display:none;">${t('model.modal.thinking_type.label')}</label>
+                                     <select id="newModelThinkingType" style="padding:8px;border:1px solid #e1e8ed;border-radius:8px;width:100%;display:none;">
+                                       <option value="2" selected>${t('model.modal.thinking_type.disable')}</option>
+                                       <option value="1">${t('model.modal.thinking_type.enable')}</option>
+                                       <option id="thinkingTypeAutoOption" value="3" style="display:none;">${t('model.modal.thinking_type.auto')}</option>
+                                     </select>
                                 </div>
                                 <div style="padding:12px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid #f1f3f4;">
                                     <button onclick="closeAddModelModal()" style="background:#ecf0f1;color:#2c3e50;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;">${t('common.cancel')}</button>
@@ -2124,6 +2088,7 @@
                                                             <div>${t('model.field.model')}：${conn.model || '-'}</div>
                                                             ${p?.model_class === 20 ? '' : `<div>${t('model.field.api_key')}：${apiKeyMasked}</div>`}
                                                             <div>${t('model.field.base64_url')}：${m.enable_base64_url ? t('common.on') : t('common.off')}</div>
+                                                            ${[2, 3, 11, 15, 20].includes(p?.model_class) ? `<div>${t('model.field.thinking_type')}：${getThinkingTypeText(conn.thinking_type ?? 0)}</div>` : ''}
                                                             ${p?.model_class === 2 ? `<div>${t('model.field.region')}：${m?.connection?.ark?.region || ''}</div>` : ''}
                                                             ${p?.model_class === 11 ? `<div>${t('model.field.backend')}：${m?.connection?.gemini?.backend ?? ''}</div><div>${t('model.field.project')}：${m?.connection?.gemini?.project || ''}</div><div>${t('model.field.location')}：${m?.connection?.gemini?.location || ''}</div>` : ''}
                                                             ${p?.model_class === 1 ? `<div>${t('model.field.azure')}：${(m?.connection?.openai?.by_azure === undefined) ? '' : (m?.connection?.openai?.by_azure ? 'true' : 'false')}</div><div>${t('model.field.api_version')}：${m?.connection?.openai?.api_version || ''}</div>` : ''}
@@ -2241,6 +2206,20 @@
               if (geminiProjectInput) geminiProjectInput.style.display = isGemini ? '' : 'none';
               if (geminiLocationLabel) geminiLocationLabel.style.display = isGemini ? '' : 'none';
               if (geminiLocationInput) geminiLocationInput.style.display = isGemini ? '' : 'none';
+              
+              // Show/hide ThinkingType dropdown
+              const thinkingTypeLabel = document.getElementById('newModelThinkingTypeLabel');
+              const thinkingTypeSelect = document.getElementById('newModelThinkingType');
+              const thinkingTypeAutoOption = document.getElementById('thinkingTypeAutoOption');
+              const hasThinkingType = [2, 3, 11, 15, 20].includes(providerClass); // Ark, Claude, Gemini, Qwen, Ollama
+              const isArkProvider = providerClass === 2;
+              if (thinkingTypeLabel) thinkingTypeLabel.style.display = hasThinkingType ? '' : 'none';
+              if (thinkingTypeSelect) {
+                  thinkingTypeSelect.style.display = hasThinkingType ? '' : 'none';
+                  thinkingTypeSelect.value = '2'; // Reset to Disable
+              }
+              if (thinkingTypeAutoOption) thinkingTypeAutoOption.style.display = isArkProvider ? '' : 'none';
+              
               modal.style.display = 'flex';
           }
           function closeAddModelModal() {
@@ -2286,6 +2265,16 @@
               const baseConn = { model: model };
               if (baseUrl) baseConn.base_url = baseUrl;
               if (requireApiKey && apiKey) baseConn.api_key = apiKey;
+              
+              // 读取 ThinkingType（仅 Ark, Claude, Gemini, Qwen, Ollama）
+              const thinkingTypeSelect = document.getElementById('newModelThinkingType');
+              const hasThinkingType = [2, 3, 11, 15, 20].includes(providerClass);
+              if (hasThinkingType && thinkingTypeSelect) {
+                  const thinkingTypeValue = parseInt(thinkingTypeSelect.value, 10);
+                  if (!Number.isNaN(thinkingTypeValue)) {
+                      baseConn.thinking_type = thinkingTypeValue;
+                  }
+              }
               // 读取“启用 Base64 URL”复选框，默认 false
               const enableBase64UrlEl = document.getElementById('newModelEnableBase64Url');
               const enableBase64Url = !!(enableBase64UrlEl && enableBase64UrlEl.checked);
@@ -2453,31 +2442,30 @@
                   const initial = {
                       embedding_type: embedding?.type ?? '',
                       embedding_max_batch_size: Number(embedding?.max_batch_size ?? 100),
-                      ark_base_url: conn?.ark?.base_url || baseConn?.base_url || '',
-                      ark_api_key: conn?.ark?.api_key || baseConn?.api_key || '',
+                      ark_base_url:  baseConn?.base_url || '',
+                      ark_api_key:  baseConn?.api_key || '',
                       ark_region: conn?.ark?.region || '',
-                      ark_model: conn?.ark?.model || baseConn?.model || '',
-                      ark_embedding_dims: conn?.ark?.embedding_dims ?? embeddingInfo?.dims ?? '',
+                      ark_model: baseConn?.model || '',
+                      ark_embedding_dims: embeddingInfo?.dims ?? '0',
                       ark_embedding_api_type: conn?.ark?.embedding_api_type || conn?.ark?.api_type || '',
-                      openai_base_url: conn?.openai?.base_url || '',
-                      openai_api_key: conn?.openai?.api_key || '',
-                      openai_model: conn?.openai?.model || '',
-                      openai_embedding_dims: conn?.openai?.embedding_dims ?? '',
-                      openai_embedding_request_dims: conn?.openai?.embedding_request_dims ?? conn?.openai?.request_dims ?? '',
+                      openai_base_url: baseConn?.base_url || '',
+                      openai_api_key:  baseConn?.api_key || '',
+                      openai_model:  baseConn?.model || '',
+                      openai_embedding_dims: embeddingInfo?.dims ?? '0',
                       openai_embedding_by_azure: Boolean(conn?.openai?.embedding_by_azure ?? conn?.openai?.by_azure),
                       openai_embedding_api_version: conn?.openai?.embedding_api_version ?? conn?.openai?.api_version ?? '',
-                      ollama_base_url: conn?.ollama?.base_url || '',
-                      ollama_model: conn?.ollama?.model || '',
-                      ollama_embedding_dims: conn?.ollama?.embedding_dims ?? '',
-                      gemini_base_url: conn?.gemini?.base_url || '',
-                      gemini_api_key: conn?.gemini?.api_key || '',
-                      gemini_model: conn?.gemini?.model || '',
-                      gemini_embedding_dims: conn?.gemini?.embedding_dims ?? '',
+                      ollama_base_url: baseConn?.base_url || '',
+                      ollama_model: baseConn?.model || '',
+                      ollama_embedding_dims: embeddingInfo?.dims ?? '0',
+                      gemini_base_url:  baseConn?.base_url || '',
+                      gemini_api_key:  baseConn?.api_key || '',
+                      gemini_model:  baseConn?.model || '',
+                      gemini_embedding_dims: embeddingInfo?.dims ?? '0',
                       gemini_embedding_backend: conn?.gemini?.embedding_backend ?? conn?.gemini?.backend ?? '',
                       gemini_embedding_project: conn?.gemini?.embedding_project ?? conn?.gemini?.project ?? '',
                       gemini_embedding_location: conn?.gemini?.embedding_location ?? conn?.gemini?.location ?? '',
                       http_address: conn?.http?.address || '',
-                      http_dims: conn?.http?.dims ?? embeddingInfo?.dims ?? '',
+                      http_dims: embeddingInfo?.dims ?? '0',
                       rerank_type: rerank?.type ?? '',
                       vik_ak: rerank?.vikingdb_config?.ak || '',
                       vik_sk: rerank?.vikingdb_config?.sk || '',
@@ -2492,6 +2480,84 @@
                       parser_paddleocr_structure_api_url: parser?.paddleocr_structure_api_url || '',
                       builtin_model_id: builtinModelId ?? ''
                   };
+
+                  if (initial.embedding_type==0) {
+                    initial.openai_api_key ='';
+                    initial.openai_base_url ='';
+                    initial.openai_model ='';
+                    initial.openai_embedding_dims ='';
+                    initial.ollama_base_url ='';
+                    initial.ollama_model ='';
+                    initial.ollama_embedding_dims ='';
+                    initial.gemini_base_url ='';
+                    initial.gemini_api_key ='';
+                    initial.gemini_model ='';
+                    initial.gemini_embedding_dims ='';
+                    initial.http_address ='';
+                    initial.http_dims ='';
+                  }else if (initial.embedding_type==1) {
+                    initial.ark_base_url ='';
+                    initial.ark_api_key ='';
+                    initial.ark_region ='';
+                    initial.ark_model ='';
+                    initial.ark_embedding_dims ='';
+                    initial.ollama_base_url ='';
+                    initial.ollama_model ='';
+                    initial.ollama_embedding_dims ='';
+                    initial.gemini_base_url ='';
+                    initial.gemini_api_key ='';
+                    initial.gemini_model ='';
+                    initial.gemini_embedding_dims ='';
+                    initial.http_address ='';
+                    initial.http_dims ='';
+                  } else if (initial.embedding_type==2) {
+                    initial.openai_api_key ='';
+                    initial.openai_base_url ='';
+                    initial.openai_model ='';
+                    initial.openai_embedding_dims ='';
+                    initial.ark_base_url ='';
+                    initial.ark_api_key ='';
+                    initial.ark_region ='';
+                    initial.ark_model ='';
+                    initial.ark_embedding_dims ='';
+                    initial.gemini_base_url ='';
+                    initial.gemini_api_key ='';
+                    initial.gemini_model ='';
+                    initial.http_address ='';
+                    initial.http_dims ='';
+                  } else if (initial.embedding_type==3) {
+                    initial.openai_api_key ='';
+                    initial.openai_base_url ='';
+                    initial.openai_model ='';
+                    initial.openai_embedding_dims ='';
+                    initial.ark_base_url ='';
+                    initial.ark_api_key ='';
+                    initial.ark_region ='';
+                    initial.ark_model ='';
+                    initial.ark_embedding_dims ='';
+                    initial.ollama_base_url ='';
+                    initial.ollama_model ='';
+                    initial.ollama_embedding_dims ='';
+                    initial.http_address ='';
+                    initial.http_dims ='';
+                  } else if (initial.embedding_type==4) {
+                    initial.openai_api_key ='';
+                    initial.openai_base_url ='';
+                    initial.openai_model ='';
+                    initial.openai_embedding_dims ='';
+                    initial.ark_base_url ='';
+                    initial.ark_api_key ='';
+                    initial.ark_region ='';
+                    initial.ark_model ='';
+                    initial.ark_embedding_dims ='';
+                    initial.ollama_base_url ='';
+                    initial.ollama_model ='';
+                    initial.ollama_embedding_dims ='';
+                    initial.gemini_base_url ='';
+                    initial.gemini_api_key ='';
+                    initial.gemini_model ='';
+                    initial.gemini_embedding_dims ='';
+                  }
 
                   const inputStyle = "width:100%;padding:8px;border:1px solid #e1e8ed;border-radius:6px;font-size:12px;";
                   const labelStyle = "font-size:12px;color:#374151;margin-bottom:6px;";
@@ -2544,9 +2610,9 @@
                                     <input id="kb_ark_model" type="text" style="${inputStyle}" value="${initial.ark_model}" />
                                   </div>
                                   <div>
-                                    <div style="${labelStyle}">Dims<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
-                                    <input id="kb_ark_embedding_dims" type="number" style="${inputStyle}" value="${initial.ark_embedding_dims}" />
-                                  </div>
+                                    <div style="${labelStyle}">Dims</div>
+                                    <input id="kb_ark_embedding_dims" type="number" min="0" style="${inputStyle}" value="${initial.ark_embedding_dims}" />
+                                </div>
                                   <div>
                                     <div style="${labelStyle}">API Type</div>
                                     <select id="kb_ark_embedding_api_type" style="${inputStyle}">
@@ -2574,9 +2640,9 @@
                                     <input id="kb_openai_api_key" type="text" style="${inputStyle}" value="${initial.openai_api_key}" />
                                   </div>
                                   <div>
-                                    <div style="${labelStyle}">Dims<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
-                                    <input id="kb_openai_embedding_dims" type="number" style="${inputStyle}" value="${initial.openai_embedding_dims}" />
-                                  </div>
+                                    <div style="${labelStyle}">Dims</div>
+                                    <input id="kb_openai_embedding_dims" type="number" min="0" style="${inputStyle}" value="${initial.openai_embedding_dims}" />
+                                </div>
                                   <!-- 选填字段靠后显示：By Azure、API Version、Request Dims -->
                                   <div>
                                     <div style="${labelStyle}">By Azure</div>
@@ -2585,10 +2651,6 @@
                                   <div>
                                     <div style="${labelStyle}">Embedding API Version</div>
                                     <input id="kb_openai_embedding_api_version" type="text" style="${inputStyle}" value="${initial.openai_embedding_api_version}" />
-                                  </div>
-                                  <div>
-                                    <div style="${labelStyle}">Embedding Request Dims</div>
-                                    <input id="kb_openai_embedding_request_dims" type="number" style="${inputStyle}" value="${initial.openai_embedding_request_dims}" />
                                   </div>
                                 </div>
                               </div>
@@ -2605,9 +2667,9 @@
                                     <input id="kb_ollama_model" type="text" style="${inputStyle}" value="${initial.ollama_model}" />
                                   </div>
                                   <div>
-                                    <div style="${labelStyle}">Dims<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
-                                    <input id="kb_ollama_embedding_dims" type="number" style="${inputStyle}" value="${initial.ollama_embedding_dims}" />
-                                  </div>
+                                    <div style="${labelStyle}">Dims</div>
+                                    <input id="kb_ollama_embedding_dims" type="number" min="0" style="${inputStyle}" value="${initial.ollama_embedding_dims}" />
+                                </div>
                                 </div>
                               </div>
 
@@ -2626,14 +2688,15 @@
                                     <div style="${labelStyle}">Model<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
                                     <input id="kb_gemini_model" type="text" style="${inputStyle}" value="${initial.gemini_model}" />
                                   </div>
-                                  <div>
-                                    <div style="${labelStyle}">Dims<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
-                                    <input id="kb_gemini_embedding_dims" type="number" style="${inputStyle}" value="${initial.gemini_embedding_dims}" />
-                                  </div>
+                           
                                   <div>
                                     <div style="${labelStyle}">Backend<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
                                     <input id="kb_gemini_embedding_backend" type="number" style="${inputStyle}" value="${initial.gemini_embedding_backend}" />
                                   </div>
+                                <div>
+                                    <div style="${labelStyle}">Dims</div>
+                                    <input id="kb_gemini_embedding_dims" type="number" min="0" style="${inputStyle}" value="${initial.gemini_embedding_dims}" />
+                                </div>
                                   <div>
                                     <div style="${labelStyle}">Project</div>
                                     <input id="kb_gemini_embedding_project" type="text" style="${inputStyle}" value="${initial.gemini_embedding_project}" />
@@ -2653,8 +2716,8 @@
                                     <input id="kb_http_address" type="text" style="${inputStyle}" value="${initial.http_address}" />
                                   </div>
                                   <div>
-                                    <div style="${labelStyle}">Dims<span style="display:inline-block;width:6px;height:6px;background:#e74c3c;border-radius:50%;margin-left:6px;"></span></div>
-                                    <input id="kb_http_dims" type="number" style="${inputStyle}" value="${initial.http_dims}" />
+                                    <div style="${labelStyle}">Dims</div>
+                                    <input id="kb_http_dims" type="number" min="0" style="${inputStyle}" value="${initial.http_dims}" />
                                   </div>
                                 </div>
                               </div>
@@ -2986,7 +3049,6 @@
                                   api_type: val('kb_ark_embedding_api_type')
                               },
                               openai: {
-                                  request_dims: toNum(val('kb_openai_embedding_request_dims')),
                                   by_azure: checked('kb_openai_embedding_by_azure'),
                                   api_version: val('kb_openai_embedding_api_version')
                               },
@@ -3034,61 +3096,82 @@
                   // Embedding 必填项校验（不同类型不同必填要求）
                   const typeVal = Number(document.getElementById('kb_embedding_type')?.value);
                   const get = (id) => (document.getElementById(id)?.value || '').trim();
+                  const getDims = (id) => {
+                      const el = document.getElementById(id);
+                      return el ? Number(el.value) : 0;
+                  };
+
                   if (typeVal === 0) {
                       // Ark: Base URL、API Key、Model、Dims 必填，API Type 可选
-                      const dimsVal = Number(document.getElementById('kb_ark_embedding_dims')?.value);
+                      const dimsVal = getDims('kb_ark_embedding_dims');
                       const missing = [];
                       if (!get('kb_ark_base_url')) missing.push('Base URL');
                       if (!get('kb_ark_api_key')) missing.push('API Key');
                       if (!get('kb_ark_model')) missing.push('Model');
-                      if (!dimsVal || isNaN(dimsVal) || dimsVal <= 0) missing.push('Dims');
+                      if (dimsVal < 0) {
+                          showError('Dims must be >= 0');
+                          return;
+                      }
+                      
                       if (missing.length > 0) {
                           showError(t('error.missing_required', { list: missing.join(', ') }));
                           return;
                       }
                   } else if (typeVal === 1) {
                       // OpenAI: Base URL、Model、API Key、Dims 必填
-                      const dimsVal = Number(document.getElementById('kb_openai_embedding_dims')?.value);
+                      const dimsVal = getDims('kb_openai_embedding_dims');
                       const missing = [];
                       if (!get('kb_openai_base_url')) missing.push('Base URL');
                       if (!get('kb_openai_model')) missing.push('Model');
                       if (!get('kb_openai_api_key')) missing.push('API Key');
-                      if (!dimsVal || isNaN(dimsVal) || dimsVal <= 0) missing.push('Dims');
+                      if (dimsVal < 0) {
+                          showError('Dims must be >= 0');
+                          return;
+                      }
                       if (missing.length > 0) {
                           showError(t('error.missing_required', { list: missing.join(', ') }));
                           return;
                       }
                   } else if (typeVal === 2) {
                       // Ollama: Base URL、Model、Dims 必填
-                      const dimsVal = Number(document.getElementById('kb_ollama_embedding_dims')?.value);
+                      const dimsVal = getDims('kb_ollama_embedding_dims');
                       const missing = [];
                       if (!get('kb_ollama_base_url')) missing.push('Base URL');
                       if (!get('kb_ollama_model')) missing.push('Model');
-                      if (!dimsVal || isNaN(dimsVal) || dimsVal <= 0) missing.push('Dims');
+                      if (dimsVal < 0) {
+                          showError('Dims must be >= 0');
+                          return;
+                      }
                       if (missing.length > 0) {
                           showError(t('error.missing_required', { list: missing.join(', ') }));
                           return;
                       }
                   } else if (typeVal === 3) {
                       // Gemini: Base URL、API Key、Model、Dims、Backend 必填；Project、Location 选填
-                      const dimsVal = Number(document.getElementById('kb_gemini_embedding_dims')?.value);
+                      const dimsVal = getDims('kb_gemini_embedding_dims');
                       const backendStr = (document.getElementById('kb_gemini_embedding_backend')?.value || '').trim();
                       const missing = [];
                       if (!get('kb_gemini_base_url')) missing.push('Base URL');
                       if (!get('kb_gemini_api_key')) missing.push('API Key');
                       if (!get('kb_gemini_model')) missing.push('Model');
-                      if (!dimsVal || isNaN(dimsVal) || dimsVal <= 0) missing.push('Dims');
                       if (!backendStr) missing.push('Backend');
+                      if (dimsVal < 0) {
+                          showError('Dims must be >= 0');
+                          return;
+                      }
                       if (missing.length > 0) {
                           showError(t('error.missing_required', { list: missing.join(', ') }));
                           return;
                       }
                   } else if (typeVal === 4) {
                       // HTTP: Address、Dims 必填
-                      const dimsVal = Number(document.getElementById('kb_http_dims')?.value);
+                      const dimsVal = getDims('kb_http_dims');
                       const missing = [];
                       if (!get('kb_http_address')) missing.push('Address');
-                      if (!dimsVal || isNaN(dimsVal) || dimsVal <= 0) missing.push('Dims');
+                      if (dimsVal < 0) {
+                          showError('Dims must be >= 0');
+                          return;
+                      }
                       if (missing.length > 0) {
                           showError(t('error.missing_required', { list: missing.join(', ') }));
                           return;
@@ -3109,7 +3192,7 @@
                       }
                   } catch (_) {}
 
-                  showOverlay(t('overlay.saving'));
+                //   showOverlay(t('overlay.saving'));
                   fetch('/api/admin/config/knowledge/save', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
