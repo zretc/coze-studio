@@ -34,6 +34,7 @@ import (
 	"github.com/coze-dev/coze-studio/backend/api/middleware"
 	"github.com/coze-dev/coze-studio/backend/api/router"
 	"github.com/coze-dev/coze-studio/backend/application"
+	"github.com/coze-dev/coze-studio/backend/dubbo"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ternary"
 	"github.com/coze-dev/coze-studio/backend/pkg/logs"
@@ -53,6 +54,18 @@ func main() {
 
 	if err := application.Init(ctx); err != nil {
 		panic("InitializeInfra failed, err=" + err.Error())
+	}
+
+	// 初始化Dubbo服务
+	if err := dubbo.InitDubbo(ctx); err != nil {
+		logs.Errorf("InitDubbo failed, err=%v", err)
+		// 非致命错误，继续启动服务
+	}
+
+	// 注册Dubbo消费者
+	if err := dubbo.RegisterConsumer(); err != nil {
+		logs.Errorf("RegisterConsumer failed, err=%v", err)
+		// 非致命错误，继续启动服务
 	}
 
 	startHttpServer()

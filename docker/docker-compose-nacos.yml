@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  nacos:
+    image: nacos/nacos-server:latest
+    container_name: nacos
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - NACOS_SERVER_PORT=8848
+      - NACOS_APPLICATION_PORT=8848
+      - NACOS_SERVERS=nacos:8848
+      - SPRING_DATASOURCE_PLATFORM=embedded
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    volumes:
+      - ./volumes/nacos:/home/nacos/data
+    restart: always
