@@ -390,11 +390,17 @@ services:
       - MODE=standalone
       - NACOS_SERVER_PORT=8848
       - NACOS_APPLICATION_PORT=8848
-      - NACOS_SERVERS=nacos:8848
+      - NACOS_SERVERS=coze-nacos:8848
       - SPRING_DATASOURCE_PLATFORM=embedded
+      - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
+      - NACOS_AUTH_IDENTITY_KEY=${NACOS_AUTH_IDENTITY_KEY}
+      - NACOS_AUTH_IDENTITY_VALUE=${NACOS_AUTH_IDENTITY_VALUE}
+      - JVM_XMS=512m
+      - JVM_XMX=1024m
     ports:
       - "8848:8848"
       - "9848:9848"
+      - "8080:8080"
     volumes:
       - ./data/nacos:/home/nacos/data
     restart: always
