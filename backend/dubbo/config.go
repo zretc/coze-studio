@@ -37,6 +37,9 @@ func InitDubbo(ctx context.Context) error {
 	nacosNamespace := getEnv("NACOS_NAMESPACE", "public")
 	nacosUsername := getEnv("NACOS_USERNAME", "nacos")
 	nacosPassword := getEnv("NACOS_PASSWORD", "nacos")
+	nacosAuthToken := getEnv("NACOS_AUTH_TOKEN", "Y296ZS1zdHVkaW8tbmFjb3MtdG9rZW4tMTc3NTY3ODkwNw==")
+	nacosAuthIdentityKey := getEnv("NACOS_AUTH_IDENTITY_KEY", "coze-studio")
+	nacosAuthIdentityValue := getEnv("NACOS_AUTH_IDENTITY_VALUE", "coze-studio-secret")
 
 	// 配置Nacos客户端
 	nacosClient, err := clients.NewNamingClient(
@@ -50,6 +53,10 @@ func InitDubbo(ctx context.Context) error {
 				RotateTime:          "1h",
 				MaxAge:              3,
 				LogLevel:            "info",
+				Username:            nacosUsername,
+				Password:            nacosPassword,
+				IdentityKey:         nacosAuthIdentityKey,
+				IdentityValue:       nacosAuthIdentityValue,
 			},
 			ServerConfigs: []nacosConstant.ServerConfig{
 				{
@@ -79,6 +86,11 @@ func InitDubbo(ctx context.Context) error {
 		config.WithUsername(nacosUsername),
 		config.WithPassword(nacosPassword),
 		config.WithNamespace(nacosNamespace),
+		config.WithParams(map[string]string{
+			"nacos.auth.token":          nacosAuthToken,
+			"nacos.auth.identity.key":   nacosAuthIdentityKey,
+			"nacos.auth.identity.value": nacosAuthIdentityValue,
+		}),
 	)
 
 	// 设置协议配置
