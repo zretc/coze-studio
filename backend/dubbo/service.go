@@ -46,6 +46,11 @@ func (s *CozeService) GetAppInfo(ctx context.Context, appID string) (map[string]
 	}, nil
 }
 
+// Add 求和方法
+func (s *CozeService) Add(ctx context.Context, a, b int64) (int64, error) {
+	return a + b, nil
+}
+
 // RegisterConsumer 注册Dubbo消费者
 func RegisterConsumer() error {
 	// 注册Java服务消费者
@@ -53,5 +58,12 @@ func RegisterConsumer() error {
 	if err != nil {
 		return err
 	}
+
+	// 注册Dubbo用户服务消费者
+	_, err = GetDubboUserService()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

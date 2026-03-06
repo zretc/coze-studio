@@ -41,3 +41,29 @@ func GetJavaService() (*JavaService, error) {
 	}
 	return &javaService, nil
 }
+
+// User 用户对象
+type User struct {
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	Nickname string `json:"nickname"`
+}
+
+// DubboUserService Dubbo用户服务接口
+type DubboUserService struct {
+	GetUserById func(ctx context.Context, userId int64) (*User, error)
+}
+
+// Reference 服务引用
+func (s *DubboUserService) Reference() string {
+	return "DubboUserService"
+}
+
+// GetDubboUserService 获取Dubbo用户服务实例
+func GetDubboUserService() (*DubboUserService, error) {
+	var userService DubboUserService
+	if err := config.SetConsumerService(&userService); err != nil {
+		return nil, err
+	}
+	return &userService, nil
+}
