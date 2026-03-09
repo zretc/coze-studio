@@ -31,13 +31,14 @@ import (
 // InitDubbo 初始化Dubbo服务
 func InitDubbo(ctx context.Context) error {
 	// 从环境变量获取Nacos配置
-	nacosAddr := getEnv("NACOS_ADDR", "localhost:8848")
+	nacosAddr := getEnv("NACOS_ADDR", "localhost")
+	nacosPort := 8848
 	nacosNamespace := getEnv("NACOS_NAMESPACE", "public")
 	nacosUsername := getEnv("NACOS_USERNAME", "nacos")
 	nacosPassword := getEnv("NACOS_PASSWORD", "nacos")
 
 	log.Println("[Dubbo] 开始初始化Dubbo服务...")
-	log.Printf("[Dubbo] Nacos配置: addr=%s, namespace=%s, username=%s", nacosAddr, nacosNamespace, nacosUsername)
+	log.Printf("[Dubbo] Nacos配置: addr=%s:%d, namespace=%s, username=%s", nacosAddr, nacosPort, nacosNamespace, nacosUsername)
 
 	// 配置Nacos客户端
 	log.Println("[Dubbo] 正在初始化Nacos客户端...")
@@ -57,7 +58,7 @@ func InitDubbo(ctx context.Context) error {
 				{
 					IpAddr:      nacosAddr,
 					ContextPath: "/nacos",
-					Port:        8848,
+					Port:        uint64(nacosPort),
 				},
 			},
 		})
