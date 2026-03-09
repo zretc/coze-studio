@@ -21,11 +21,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
-	dubboConstant "dubbo.apache.org/dubbo-go/v3/common/constant"
 	"dubbo.apache.org/dubbo-go/v3/config"
-	"dubbo.apache.org/dubbo-go/v3/registry"
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	nacosConstant "github.com/nacos-group/nacos-sdk-go/v2/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
@@ -38,16 +35,13 @@ func InitDubbo(ctx context.Context) error {
 	nacosNamespace := getEnv("NACOS_NAMESPACE", "public")
 	nacosUsername := getEnv("NACOS_USERNAME", "nacos")
 	nacosPassword := getEnv("NACOS_PASSWORD", "nacos")
-	nacosAuthToken := getEnv("NACOS_AUTH_TOKEN", "Y296ZS1zdHVkaW8tbmFjb3MtdG9rZW4tMTc3NTY3ODkwNw==")
-	nacosAuthIdentityKey := getEnv("NACOS_AUTH_IDENTITY_KEY", "coze-studio")
-	nacosAuthIdentityValue := getEnv("NACOS_AUTH_IDENTITY_VALUE", "coze-studio-secret")
 
 	log.Println("[Dubbo] 开始初始化Dubbo服务...")
 	log.Printf("[Dubbo] Nacos配置: addr=%s, namespace=%s, username=%s", nacosAddr, nacosNamespace, nacosUsername)
 
 	// 配置Nacos客户端
 	log.Println("[Dubbo] 正在初始化Nacos客户端...")
-	nacosClient, err := clients.NewNamingClient(
+	_, err := clients.NewNamingClient(
 		vo.NacosClientParam{
 			ClientConfig: &nacosConstant.ClientConfig{
 				NamespaceId:         nacosNamespace,
@@ -55,20 +49,15 @@ func InitDubbo(ctx context.Context) error {
 				NotLoadCacheAtStart: true,
 				LogDir:              "logs/nacos",
 				CacheDir:            "cache/nacos",
-				RotateTime:          "1h",
-				MaxAge:              3,
 				LogLevel:            "info",
 				Username:            nacosUsername,
 				Password:            nacosPassword,
-				IdentityKey:         nacosAuthIdentityKey,
-				IdentityValue:       nacosAuthIdentityValue,
 			},
 			ServerConfigs: []nacosConstant.ServerConfig{
 				{
 					IpAddr:      nacosAddr,
 					ContextPath: "/nacos",
 					Port:        8848,
-					GrpcPort:    9848,
 				},
 			},
 		})
@@ -78,63 +67,14 @@ func InitDubbo(ctx context.Context) error {
 	}
 	log.Println("[Dubbo] Nacos客户端初始化成功")
 
-	// 测试Nacos连接
-	log.Println("[Dubbo] 测试Nacos连接...")
-	services, err := nacosClient.GetServices(vo.GetServicesParam{
-		PageNo:   1,
-		PageSize: 10,
-	})
-	if err != nil {
-		log.Printf("[Dubbo] Nacos连接测试失败: %v", err)
-	} else {
-		log.Printf("[Dubbo] Nacos连接测试成功，当前服务数量: %d", len(services.Doms))
-	}
-
 	// 配置Dubbo
 	log.Println("[Dubbo] 配置Dubbo服务...")
 	config.SetProviderService(new(CozeService))
 	log.Println("[Dubbo] 注册CozeService服务")
 
-	// 设置应用配置
-	applicationConfig := config.NewApplicationConfig(
-		config.WithApplicationName("coze-studio-backend"),
-	)
-	log.Println("[Dubbo] 设置应用配置: coze-studio-backend")
-
-	// 设置注册中心配置
-	registryConfig := config.NewRegistryConfig(
-		config.WithProtocol("nacos"),
-		config.WithAddress(nacosAddr),
-		config.WithUsername(nacosUsername),
-		config.WithPassword(nacosPassword),
-		config.WithNamespace(nacosNamespace),
-		config.WithParams(map[string]string{
-			"nacos.auth.token":          nacosAuthToken,
-			"nacos.auth.identity.key":   nacosAuthIdentityKey,
-			"nacos.auth.identity.value": nacosAuthIdentityValue,
-		}),
-	)
-	log.Printf("[Dubbo] 设置注册中心配置: %s", nacosAddr)
-
-	// 设置协议配置
-	protocolConfig := config.NewProtocolConfig(
-		config.WithName("dubbo"),
-		config.WithPort(20000),
-		config.WithParams(map[string]string{
-			"threadpool": "fixed",
-			"threads":    "200",
-			"queues":     "1000",
-		}),
-	)
-	log.Println("[Dubbo] 设置协议配置: dubbo:20000")
-
 	// 初始化Dubbo
 	log.Println("[Dubbo] 加载Dubbo配置...")
-	if err := config.Load(
-		config.WithApplicationConfig(applicationConfig),
-		config.WithRegistryConfig(registryConfig),
-		config.WithProtocolConfig(protocolConfig),
-	); err != nil {
+	if err := config.Load(); err != nil {
 		log.Printf("[Dubbo] 加载Dubbo配置失败: %v", err)
 		return fmt.Errorf("load dubbo config failed: %w", err)
 	}

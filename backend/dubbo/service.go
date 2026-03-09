@@ -18,8 +18,6 @@ package dubbo
 
 import (
 	"context"
-
-	"dubbo.apache.org/dubbo-go/v3/config"
 )
 
 // CozeService 定义Dubbo服务接口

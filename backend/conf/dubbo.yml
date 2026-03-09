@@ -1,0 +1,16 @@
+dubbo:
+  application:
+    name: coze-studio-backend
+  registry:
+    address: nacos://localhost:8848
+    username: nacos
+    password: nacos
+    parameters:
+      namespace: public
+  protocol:
+    name: dubbo
+    port: 20000
+    parameters:
+      threadpool: fixed
+      threads: 200
+      queues: 1000

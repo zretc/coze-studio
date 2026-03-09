@@ -36,9 +36,7 @@ func (s *JavaService) Reference() string {
 // GetJavaService 获取Java服务实例
 func GetJavaService() (*JavaService, error) {
 	var javaService JavaService
-	if err := config.SetConsumerService(&javaService); err != nil {
-		return nil, err
-	}
+	config.SetConsumerService(&javaService)
 	return &javaService, nil
 }
 
@@ -62,8 +60,6 @@ func (s *DubboUserService) Reference() string {
 // GetDubboUserService 获取Dubbo用户服务实例
 func GetDubboUserService() (*DubboUserService, error) {
 	var userService DubboUserService
-	if err := config.SetConsumerService(&userService); err != nil {
-		return nil, err
-	}
+	config.SetConsumerService(&userService)
 	return &userService, nil
 }

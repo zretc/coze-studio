@@ -52,10 +52,6 @@ func main() {
 
 	setLogLevel()
 
-	if err := application.Init(ctx); err != nil {
-		panic("InitializeInfra failed, err=" + err.Error())
-	}
-
 	// 初始化Dubbo服务
 	if err := dubbo.InitDubbo(ctx); err != nil {
 		logs.Errorf("InitDubbo failed, err=%v", err)
@@ -66,6 +62,10 @@ func main() {
 	if err := dubbo.RegisterConsumer(); err != nil {
 		logs.Errorf("RegisterConsumer failed, err=%v", err)
 		// 非致命错误，继续启动服务
+	}
+
+	if err := application.Init(ctx); err != nil {
+		panic("InitializeInfra failed, err=" + err.Error())
 	}
 
 	startHttpServer()
